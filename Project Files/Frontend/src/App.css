@@ -1,0 +1,320 @@
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border: none;
+  outline: none;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+  margin-right: 20px;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+#root {
+  background: linear-gradient(to bottom right, #ffffff, #f1f5f9);
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1;
+}
+
+/* ✅ Updated - Centered Hero Section */
+.first-container {
+  width: 100%;
+  height: 92vh;
+  background-image: url("../src/assets/Images/bg.jpg");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+/* ✅ Updated - Remove absolute positioning */
+.content-home {
+  position: relative;
+}
+
+/* Style for welcome text */
+.content-home p {
+  font-size: 42px;
+  font-weight: 800;
+  color: #2c3e50;
+  letter-spacing: 10px;
+  margin-bottom: 20px;
+}
+
+/* Style for button */
+.content-home button {
+  background-color: #ffffff;
+  color: #2c3e50;
+  border: 1px solid #2c3e50;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+.second-container {
+  width: 100%;
+  height: 92vh;
+}
+
+.card-container,
+.course-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.filter-container {
+  width: 100%;
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.filter-container input,
+select {
+  border: 1px solid #ced4da;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.card,
+.card1 {
+  width: calc(33% - 10px);
+  height: 40%;
+}
+
+.read-more-link {
+  cursor: pointer;
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.card1 {
+  border-radius: 10px;
+  width: 300px;
+  height: 320px;
+  position: relative;
+  border: 1px solid #dee2e6;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.description-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.description {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 5px;
+}
+
+.card1 .desc {
+  width: 100%;
+  height: 100%;
+  transition: .5s;
+  padding: 10px;
+}
+
+.card1:hover .desc {
+  opacity: .5;
+  transform: translateX(30%);
+}
+
+.card1 .details {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../src/assets/Images/image.png');
+  background-size: cover;
+  transition: 1.9s;
+  transform-origin: left;
+  transform: perspective(2000px) rotateY(-90deg);
+  border-radius: 10px;
+}
+
+.card1:hover .details {
+  transform: perspective(2000px) rotateY(0deg);
+}
+
+.card1 .details .center {
+  padding: 20px;
+  text-align: center;
+  background: #ffffff;
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.card1 .details .center h1 {
+  margin: 0;
+  padding: 0;
+  color: #e74c3c;
+  line-height: 20px;
+  font-size: 25px;
+  text-transform: uppercase;
+}
+
+.card1 .details .center h1 span {
+  font-size: 14px;
+  color: #262626;
+}
+
+.card1 .details .center p {
+  margin: 10px 0;
+  padding: 0;
+  color: #444;
+}
+
+.card1 .details .center ul {
+  margin: 10px auto 0;
+  padding: 0;
+  display: table;
+}
+
+.card1 .details .center ul li {
+  list-style: none;
+  margin: 0 5px;
+  float: left;
+}
+
+.card1 .details .center ul li a {
+  display: block;
+  background: #262626;
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  transform: .5s;
+}
+
+.card1 .details .center ul li a:hover {
+  background: #e74c3c;
+}
+
+.course-content {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #f8fafc;
+  border-radius: 8px;
+}
+
+.course-section {
+  width: 50%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.course-video {
+  width: 50%;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (min-width: 940px) {
+  .card {
+    width: calc(25% - 10px);
+  }
+}
+
+.certificate {
+  width: 100%;
+  padding: 20px;
+  border: 1px solid #dee2e6;
+  text-align: center;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border-radius: 10px;
+}
+
+.certificate h1 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.certificate .content {
+  margin-bottom: 40px;
+}
+
+.certificate .content h2 {
+  font-size: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.certificate .content h3 {
+  font-size: 18px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.certificate .content .date {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .course-section {
+    width: 100%;
+  }
+
+  .course-video {
+    width: 100%;
+  }
+
+  .card1 {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
