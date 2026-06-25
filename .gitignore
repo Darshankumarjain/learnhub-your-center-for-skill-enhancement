@@ -1,0 +1,16 @@
+# Ignore node modules
+node_modules/
+Project Files/Frontend/node_modules/
+
+# Ignore Vite cache
+Project Files/Frontend/node_modules/.vite/
+
+# Ignore environment files
+*.env
+
+# Ignore log files
+*.log
+
+# OS-specific files
+Thumbs.db
+.DS_Store

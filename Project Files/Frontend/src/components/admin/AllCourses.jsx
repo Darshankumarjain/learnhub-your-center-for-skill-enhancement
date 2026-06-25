@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react'
+﻿import React, { useState, useEffect } from 'react'
 import { Button, styled, TableRow, TableHead, TableContainer, Paper, Table, TableBody, TableCell, tableCellClasses } from '@mui/material'
 import axiosInstance from '../common/AxiosInstance'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
+      backgroundColor: '#eff6ff',
+      color: '#0f172a',
+      fontWeight: 800,
    },
    [`&.${tableCellClasses.body}`]: {
       fontSize: 14,
@@ -14,7 +15,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
+      backgroundColor: '#f8fafc',
    },
    '&:last-child td, &:last-child th': {
       border: 0,
@@ -64,14 +65,14 @@ const AllCourses = () => {
       }
    }
    return (
-      <TableContainer component={Paper}>
-         <Table sx={{ minWidth: 700 }} aria-label="customized table">
+      <TableContainer className="table-panel" component={Paper}>
+         <Table sx={{ minWidth: 900 }} aria-label="customized table">
             <TableHead>
                <TableRow>
-                  <StyledTableCell>Cousre ID</StyledTableCell>
-                  <StyledTableCell align="center">Course Name</StyledTableCell>
+                  <StyledTableCell>Course ID</StyledTableCell>
+                  <StyledTableCell align="left">Course Name</StyledTableCell>
                   <StyledTableCell align="left">Course Educator</StyledTableCell>
-                  <StyledTableCell align="center">Course Category</StyledTableCell>
+                  <StyledTableCell align="left">Course Category</StyledTableCell>
                   <StyledTableCell align="left">Course Price</StyledTableCell>
                   <StyledTableCell align="left">Course Sections</StyledTableCell>
                   <StyledTableCell align="left">Enrolled Students</StyledTableCell>
@@ -83,35 +84,20 @@ const AllCourses = () => {
                   allCourses.length > 0 ? (
                      allCourses.map((Course) => (
                         <StyledTableRow key={Course._id}>
-                           <StyledTableCell component="th" scope="row">
-                              {Course._id}
-                           </StyledTableCell>
+                           <StyledTableCell component="th" scope="row">{Course._id}</StyledTableCell>
+                           <StyledTableCell component="th" scope="row">{Course.C_title}</StyledTableCell>
+                           <StyledTableCell component="th" scope="row">{Course.C_educator}</StyledTableCell>
+                           <StyledTableCell component="th" scope="row"><span className="badge-role">{Course.C_categories}</span></StyledTableCell>
+                           <StyledTableCell component="th" scope="row">{Course.C_price}</StyledTableCell>
+                           <StyledTableCell component="th" scope="row">{Course.sections.length}</StyledTableCell>
+                           <StyledTableCell component="th" scope="row">{Course.enrolled}</StyledTableCell>
                            <StyledTableCell align="center" component="th" scope="row">
-                              {Course.C_title}
-                           </StyledTableCell>
-                           <StyledTableCell align="center" component="th" scope="row">
-                              {Course.C_educator}
-                           </StyledTableCell>
-                           <StyledTableCell align="center" component="th" scope="row">
-                              {Course.C_categories}
-                           </StyledTableCell>
-                           <StyledTableCell align="center" component="th" scope="row">
-                              {Course.C_price}
-                           </StyledTableCell>
-                           <StyledTableCell align="center" component="th" scope="row">
-                              {Course.sections.length}
-                           </StyledTableCell>
-                           <StyledTableCell align="center" component="th" scope="row">
-                              {Course.enrolled}
-                           </StyledTableCell>
-                           <StyledTableCell align="center" component="th" scope="row">
-                              <Button onClick={() => deleteCourse(Course._id)} size='small' color="error">Delete</Button>
-                              {/* <Button size='small' color="info">Update</Button> */}
+                              <Button onClick={() => deleteCourse(Course._id)} size='small' color="error" variant="outlined">Delete</Button>
                            </StyledTableCell>
                         </StyledTableRow>
                      )))
                      :
-                     (<p className='px-2'>No users found</p>)
+                     (<StyledTableRow><StyledTableCell colSpan={8}>No courses found.</StyledTableCell></StyledTableRow>)
                }
             </TableBody>
          </Table>

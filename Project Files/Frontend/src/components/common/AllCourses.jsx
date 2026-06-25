@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+﻿import React, { useState, useEffect, useContext } from 'react';
 import axiosInstance from './AxiosInstance';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { UserContext } from '../../App';
@@ -26,7 +26,7 @@ const AllCourses = () => {
       setCardDetails({ ...cardDetails, [e.target.name]: e.target.value })
    }
    const handleShow = (courseIndex, coursePrice, courseId, courseTitle) => {
-      if (coursePrice == 'free') {
+      if (coursePrice == 'free' || coursePrice == '0') {
          handleSubmit(courseId)
          return navigate(`/courseSection/${courseId}/${courseTitle}`)
       } else {
@@ -58,7 +58,7 @@ const AllCourses = () => {
       getAllCoursesUser();
    }, []);
    const isPaidCourse = (course) => {
-      return /\d/.test(course.C_price);
+      return /\d/.test(course.C_price) && course.C_price !== '0';
    };
    const handleSubmit = async (courseId) => {
       try {
@@ -80,11 +80,11 @@ const AllCourses = () => {
    }
    return (
       <>
-         <div className=" mt-4 filter-container text-center">
-            <p className="mt-3">Serach By: </p>
+         <div className="filter-container">
+            <p>Search by</p>
             <input
                type="text"
-               placeholder="title"
+               placeholder="Course title"
                value={filterTitle}
                onChange={(e) => setFilterTitle(e.target.value)}
             />
@@ -94,7 +94,7 @@ const AllCourses = () => {
                <option value="Free">Free</option>
             </select>
          </div>
-         <div className='p-2 course-container'>
+         <div className='course-container'>
             {allCourses?.length > 0 ? (
                allCourses
                   .filter(
@@ -112,100 +112,86 @@ const AllCourses = () => {
                      }
                   })
                   .map((course, index) => (
-                     <div key={course._id} className='course'>
-                        <div className="card1">
-                           <div className="desc">
-                              <h3>Modules</h3>
-                              {course.sections.length > 0 ? (
-                                 course.sections.slice(0, 2).map((section, i) => (
-                                    <div key={i}>
-                                       <p><b>Title:</b> {section.S_title}</p>
-                                       <div className="description-container">
-                                          <div className="description">
-                                             <b>Description:</b> {section.S_description}
-                                          </div>
-                                       </div>
-                                       <hr />
-                                    </div>
-                                 ))
-                              ) : (
-                                 <p>No Modules</p>
-                              )}
-                              <p style={{ fontSize: 20, fontWeight: 600 }}>many more to watch..</p>
-                           </div>
-                           <div className="details">
-                              <div className="center">
-                                 <h1>
-                                    {course.C_title}<br />
-                                    <span>{course.C_categories}</span><br />
-                                    <span style={{ fontSize: 10 }}>by: &nbsp;{course.C_educator}</span>
-                                 </h1>
-                                 <p>Sections: {course.sections.length}</p>
-                                 <p>Price(Rs.): {course.C_price}</p>
-                                 <p>Enrolled students: {course.enrolled}</p>
-                                 {user.userLoggedIn === true ?
-                                    <>
-                                       <Button
-                                          className=""
-                                          variant='outline-dark'
-                                          size='sm'
-                                          onClick={() => handleShow(index, course.C_price, course._id, course.C_title)}
-                                       >
-                                          Start Course
-                                       </Button>
-                                       <Modal show={showModal[index]} onHide={() => handleClose(index)}>
-                                          <Modal.Header closeButton>
-                                             <Modal.Title>
-                                                Payment for {course.C_title} Course
-                                             </Modal.Title>
-                                          </Modal.Header>
-                                          <Modal.Body>
-                                             <p style={{ fontSize: 15 }}>Educator: {course.C_educator}</p>
-                                             <p style={{ fontSize: 15 }}>Price: {course.C_price}</p>
-                                             <Form onSubmit={(e) => {
-                                                e.preventDefault()
-                                                handleSubmit(course._id)
-                                             }}>
-                                                <MDBInput className='mb-2' label="Card Holder Name" name='cardholdername' value={cardDetails.cardholdername} onChange={handleChange} type="text" size="md"
-                                                   placeholder="Cardholder's Name" contrast required />
-                                                <MDBInput className='mb-2' name='cardnumber' value={cardDetails.cardnumber} onChange={handleChange} label="Card Number" type="number" size="md"
-                                                   minLength="0" maxLength="16" placeholder="1234 5678 9012 3457" required />
-                                                <MDBRow className="mb-4">
-                                                   <MDBCol md="6">
-                                                      <MDBInput name='expmonthyear' value={cardDetails.expmonthyear} onChange={handleChange} className="mb-2" label="Expiration" type="text" size="md"
-                                                         placeholder="MM/YYYY" required />
-                                                   </MDBCol>
-                                                   <MDBCol md="6">
-                                                      <MDBInput name='cvvcode' value={cardDetails.cvvcode} onChange={handleChange} className="mb-2" label="Cvv" type="number" size="md" minLength="3"
-                                                         maxLength="3" placeholder="&#9679;&#9679;&#9679;" required />
-                                                   </MDBCol>
-                                                </MDBRow>
-                                                <div className="d-flex justify-content-end">
-                                                   <Button className='mx-2' variant="secondary" onClick={() => handleClose(index)}>
-                                                      Close
-                                                   </Button>
-                                                   <Button variant="primary" type='submit'>
-                                                      Pay Now
-                                                   </Button>
-                                                </div>
-                                             </Form>
-                                          </Modal.Body>
-                                       </Modal>
-                                    </>
-                                    : <Link to={'/login'}><Button
-                                       className=""
-                                       variant='outline-dark'
-                                       size='sm'
-                                    >
-                                       Start Course
-                                    </Button></Link>}
+                     <article key={course._id} className="course-card">
+                        <div className="course-card-top">
+                           <span className="badge-soft">{course.C_categories}</span>
+                           <h3>{course.C_title}</h3>
+                        </div>
+                        <div className="course-card-body">
+                           <p className="text-muted mb-3">by {course.C_educator}</p>
+                           <div className="course-meta">
+                              <div className="course-meta-item">
+                                 <span>Sections</span>
+                                 <strong>{course.sections.length}</strong>
+                              </div>
+                              <div className="course-meta-item">
+                                 <span>Students</span>
+                                 <strong>{course.enrolled}</strong>
+                              </div>
+                              <div className="course-meta-item">
+                                 <span>Price</span>
+                                 <strong>{course.C_price}</strong>
+                              </div>
+                              <div className="course-meta-item">
+                                 <span>Type</span>
+                                 <strong>{isPaidCourse(course) ? 'Paid' : 'Free'}</strong>
                               </div>
                            </div>
+                           {course.sections.length > 0 && (
+                              <p className="text-muted small mb-3">
+                                 First module: {course.sections[0].S_title}
+                              </p>
+                           )}
+                           {user.userLoggedIn === true ?
+                              <>
+                                 <Button
+                                    className="btn-lh-primary w-100"
+                                    size='sm'
+                                    onClick={() => handleShow(index, course.C_price, course._id, course.C_title)}
+                                 >
+                                    Start Course
+                                 </Button>
+                                 <Modal show={showModal[index]} onHide={() => handleClose(index)}>
+                                    <Modal.Header closeButton>
+                                       <Modal.Title>
+                                          Payment for {course.C_title}
+                                       </Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                       <p className="mb-1">Educator: {course.C_educator}</p>
+                                       <p className="mb-3">Price: {course.C_price}</p>
+                                       <Form onSubmit={(e) => {
+                                          e.preventDefault()
+                                          handleSubmit(course._id)
+                                       }}>
+                                          <MDBInput className='mb-2' label="Card Holder Name" name='cardholdername' value={cardDetails.cardholdername} onChange={handleChange} type="text" size="md" placeholder="Cardholder's Name" contrast required />
+                                          <MDBInput className='mb-2' name='cardnumber' value={cardDetails.cardnumber} onChange={handleChange} label="Card Number" type="number" size="md" minLength="0" maxLength="16" placeholder="1234 5678 9012 3457" required />
+                                          <MDBRow className="mb-4">
+                                             <MDBCol md="6">
+                                                <MDBInput name='expmonthyear' value={cardDetails.expmonthyear} onChange={handleChange} className="mb-2" label="Expiration" type="text" size="md" placeholder="MM/YYYY" required />
+                                             </MDBCol>
+                                             <MDBCol md="6">
+                                                <MDBInput name='cvvcode' value={cardDetails.cvvcode} onChange={handleChange} className="mb-2" label="Cvv" type="number" size="md" minLength="3" maxLength="3" placeholder="123" required />
+                                             </MDBCol>
+                                          </MDBRow>
+                                          <div className="d-flex justify-content-end">
+                                             <Button className='mx-2 btn-lh-outline' onClick={() => handleClose(index)}>
+                                                Close
+                                             </Button>
+                                             <Button className="btn-lh-primary" type='submit'>
+                                                Pay Now
+                                             </Button>
+                                          </div>
+                                       </Form>
+                                    </Modal.Body>
+                                 </Modal>
+                              </>
+                              : <Link to={'/login'}><Button className="btn-lh-primary w-100" size='sm'>Start Course</Button></Link>}
                         </div>
-                     </div>
+                     </article>
                   ))
             ) : (
-               <p>No courses at the moment</p>
+               <p className="empty-state">No courses at the moment</p>
             )}
          </div>
       </>

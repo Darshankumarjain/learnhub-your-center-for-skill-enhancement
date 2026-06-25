@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useParams, Link } from 'react-router-dom';
+﻿import React, { useState, useEffect, useContext } from 'react';
+import { useParams } from 'react-router-dom';
 import { Accordion, Modal } from 'react-bootstrap';
 import axiosInstance from '../../common/AxiosInstance';
 import ReactPlayer from 'react-player';
@@ -39,7 +39,6 @@ const CourseContent = () => {
          });
          if (res.data.success) {
             setCourseContent(res.data.courseContent);
-            console.log(res.data.completeModule)
             setCompletedModule(res.data.completeModule)
             setCertificate(res.data.certficateData.updatedAt)
          }
@@ -83,7 +82,11 @@ const CourseContent = () => {
    return (
       <>
          <NavBar />
-         <h1 className='my-3 text-center'>Welcome to the course: {courseTitle}</h1>
+         <div className='course-page-title'>
+            <span className="badge-role">Course player</span>
+            <h1>{courseTitle}</h1>
+            <p className="text-muted">Watch each module and mark it complete to unlock your certificate.</p>
+         </div>
          <div className='course-content'>
             <div className="course-section">
                <Accordion defaultActiveKey="0" flush>
@@ -92,46 +95,53 @@ const CourseContent = () => {
                      const isSectionCompleted = !completedModuleIds.includes(sectionId);
                      return (
                         <Accordion.Item key={index} eventKey={index.toString()}>
-                           <Accordion.Header>{section.S_title}</Accordion.Header>
+                           <Accordion.Header>{index + 1}. {section.S_title}</Accordion.Header>
                            <Accordion.Body>
-                              {section.S_description}
+                              <p className="text-muted">{section.S_description}</p>
                               {section.S_content && (
-                                 <>
-                                    <Button color='success' className='mx-2' variant="text" size="small" onClick={() => playVideo(`http://localhost:8000${section.S_content.path}`, index)}>
+                                 <div className="d-flex gap-2 flex-wrap">
+                                    <Button color='primary' variant="contained" size="small" onClick={() => playVideo(`http://localhost:8000${section.S_content.path}`, index)}>
                                        Play Video
                                     </Button>
                                     {isSectionCompleted && !completedSections.includes(index) && (
                                        <Button
-                                          variant='success'
-                                          size='sm'
+                                          color='success'
+                                          variant='outlined'
+                                          size='small'
                                           onClick={() => completeModule(sectionId)}
                                           disabled={playingSectionIndex !== index}
                                        >
                                           Completed
                                        </Button>
                                     )}
-                                 </>
+                                 </div>
                               )}
                            </Accordion.Body>
                         </Accordion.Item>
                      );
                   })}
                   {completedModule.length === courseContent.length && (
-                     <Button className='my-2' onClick={() => setShowModal(true)}>Download Certificate</Button>
+                     <div className="p-3">
+                        <Button variant="contained" onClick={() => setShowModal(true)}>Download Certificate</Button>
+                     </div>
                   )}
                </Accordion>
             </div>
-            <div className="course-video w-50">
-               {currentVideo && (
+            <div className="course-video">
+               {currentVideo ? (
                   <ReactPlayer
                      url={currentVideo}
                      width='100%'
                      height='100%'
                      controls
                   />
+               ) : (
+                  <div className="course-video-empty">
+                     <h3>Select a lesson to begin</h3>
+                     <p>Course videos will appear here.</p>
+                  </div>
                )}
             </div>
-
          </div>
          <Modal
             size="lg"
@@ -146,7 +156,7 @@ const CourseContent = () => {
                </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-               Congratulations! You have completed all sections. Here is your certificate
+               <p>Congratulations. You have completed all sections.</p>
                <div id='certificate-download' className="certificate text-center">
                   <h1>Certificate of Completion</h1>
                   <div className="content">
@@ -158,7 +168,7 @@ const CourseContent = () => {
                      <p className="date">{new Date(certificate).toLocaleDateString()}</p>
                   </div>
                </div>
-               <Button onClick={() => downloadPdfDocument('certificate-download')} style={{ float: 'right', marginTop: 3 }}>Download Certificate</Button>
+               <Button onClick={() => downloadPdfDocument('certificate-download')} style={{ float: 'right', marginTop: 12 }} variant="contained">Download Certificate</Button>
             </Modal.Body>
          </Modal>
       </>

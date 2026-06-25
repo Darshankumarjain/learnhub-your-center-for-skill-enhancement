@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+﻿import React, { useState, useContext } from 'react';
 import { Button, Form, Col, Row } from 'react-bootstrap';
 import { UserContext } from '../../../App';
 import axiosInstance from '../../common/AxiosInstance';
@@ -64,7 +64,7 @@ const AddCourse = () => {
       const formData = new FormData();
       Object.keys(addCourse).forEach((key) => {
          if (key === 'sections') {
-            addCourse[key].forEach((section, index) => {
+            addCourse[key].forEach((section) => {
                if (section.S_content instanceof File) {
                   formData.append(`S_content`, section.S_content);
                }
@@ -75,10 +75,6 @@ const AddCourse = () => {
             formData.append(key, addCourse[key]);
          }
       });
-
-      for (const [key, value] of formData.entries()) {
-         console.log(`${key}:`, value);
-      }
 
       try {
          const res = await axiosInstance.post('/api/user/addcourse', formData, {
@@ -104,10 +100,16 @@ const AddCourse = () => {
    };
 
    return (
-      <div className=''>
+      <div className='form-panel'>
+         <div className="section-header mb-3">
+            <div>
+               <h2>Create a course</h2>
+               <p>Add course details and upload lesson modules.</p>
+            </div>
+         </div>
          <Form className="mb-3" onSubmit={handleSubmit}>
             <Row className="mb-3">
-               <Form.Group as={Col} controlId="formGridJobType">
+               <Form.Group as={Col} md={6} controlId="formGridJobType">
                   <Form.Label>Course Type</Form.Label>
                   <Form.Select value={addCourse.C_categories} onChange={handleCourseTypeChange}>
                      <option>Select categories</option>
@@ -116,22 +118,22 @@ const AddCourse = () => {
                      <option>Personal Development</option>
                   </Form.Select>
                </Form.Group>
-               <Form.Group as={Col} controlId="formGridTitle">
+               <Form.Group as={Col} md={6} controlId="formGridTitle">
                   <Form.Label>Course Title</Form.Label>
                   <Form.Control name='C_title' value={addCourse.C_title} onChange={handleChange} type="text" placeholder="Enter Course Title" required />
                </Form.Group>
             </Row>
 
             <Row className="mb-3">
-               <Form.Group as={Col} controlId="formGridTitle">
+               <Form.Group as={Col} md={4} controlId="formGridEducator">
                   <Form.Label>Course Educator</Form.Label>
                   <Form.Control name='C_educator' value={addCourse.C_educator} onChange={handleChange} type="text" placeholder="Enter Course Educator" required />
                </Form.Group>
-               <Form.Group as={Col} controlId="formGridTitle">
+               <Form.Group as={Col} md={4} controlId="formGridPrice">
                   <Form.Label>Course Price(Rs.)</Form.Label>
-                  <Form.Control name='C_price' value={addCourse.C_price} onChange={handleChange} type="text" placeholder="for free course, enter 0" required />
+                  <Form.Control name='C_price' value={addCourse.C_price} onChange={handleChange} type="text" placeholder="For free course, enter 0" required />
                </Form.Group>
-               <Form.Group as={Col} className="mb-3" controlId="formGridAddress2">
+               <Form.Group as={Col} md={4} controlId="formGridDescription">
                   <Form.Label>Course Description</Form.Label>
                   <Form.Control name='C_description' value={addCourse.C_description} onChange={handleChange} required as={"textarea"} placeholder="Enter Course description" />
                </Form.Group>
@@ -140,61 +142,38 @@ const AddCourse = () => {
             <hr />
 
             {addCourse.sections.map((section, index) => (
-               <div key={index} className="d-flex flex-column mb-4 border rounded-3 border-3 p-3 position-relative">
-                  <Col xs={24} md={12} lg={8}>
-                     <span style={{ cursor: 'pointer' }} className="position-absolute top-0 end-0 p-1" onClick={() => removeInputGroup(index)}>
-                        ❌
-                     </span>
-                  </Col>
+               <div key={index} className="module-card d-flex flex-column mb-4 p-3 position-relative">
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                     <strong>Module {index + 1}</strong>
+                     <Button size="sm" variant="outline-danger" onClick={() => removeInputGroup(index)}>
+                        Remove
+                     </Button>
+                  </div>
                   <Row className='mb-3'>
-                     <Form.Group as={Col} controlId="formGridTitle">
+                     <Form.Group as={Col} md={6} controlId={`sectionTitle${index}`}>
                         <Form.Label>Section Title</Form.Label>
-                        <Form.Control
-                           name={`S_title`}
-                           value={section.S_title}
-                           onChange={(e) => handleChangeSection(index, e)}
-                           type="text"
-                           placeholder="Enter Section Title"
-                           required
-                        />
+                        <Form.Control name={`S_title`} value={section.S_title} onChange={(e) => handleChangeSection(index, e)} type="text" placeholder="Enter Section Title" required />
                      </Form.Group>
-                     <Form.Group as={Col} controlId="formGridContent">
+                     <Form.Group as={Col} md={6} controlId={`sectionContent${index}`}>
                         <Form.Label>Section Content (Video or Image)</Form.Label>
-                        <Form.Control
-                           name={`S_content`}
-                           onChange={(e) => handleChangeSection(index, e)}
-                           type="file"
-                           accept="video/*,image/*"
-                           required
-                        />
+                        <Form.Control name={`S_content`} onChange={(e) => handleChangeSection(index, e)} type="file" accept="video/*,image/*" required />
                      </Form.Group>
-
-                     <Form.Group className="mb-3" controlId="formGridAddress2">
+                     <Form.Group className="mt-3" controlId={`sectionDescription${index}`}>
                         <Form.Label>Section Description</Form.Label>
-                        <Form.Control
-                           name={`S_description`}
-                           value={section.S_description}
-                           onChange={(e) => handleChangeSection(index, e)}
-                           required
-                           as={"textarea"}
-                           placeholder="Enter Section description"
-                        />
+                        <Form.Control name={`S_description`} value={section.S_description} onChange={(e) => handleChangeSection(index, e)} required as={"textarea"} placeholder="Enter Section description" />
                      </Form.Group>
                   </Row>
                </div>
             ))}
 
-            <Row className="mb-3">
-               <Col xs={24} md={12} lg={8}>
-                  <Button size='sm' variant='outline-secondary' onClick={addInputGroup}>
-                     ➕Add Section
-                  </Button>
-               </Col>
-            </Row>
-
-            <Button variant="primary" type="submit">
-               Submit
-            </Button>
+            <div className="d-flex justify-content-between flex-wrap gap-2">
+               <Button className='btn-lh-outline' onClick={addInputGroup}>
+                  Add Section
+               </Button>
+               <Button className="btn-lh-primary" type="submit">
+                  Submit Course
+               </Button>
+            </div>
          </Form>
       </div>
    );

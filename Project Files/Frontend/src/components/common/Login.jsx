@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+﻿import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import Navbar from 'react-bootstrap/Navbar';
 import { Container, Nav } from 'react-bootstrap';
@@ -49,90 +49,67 @@ const Login = () => {
    };
    return (
       <>
-         <Navbar expand="lg" className="bg-body-tertiary">
-            <Container fluid>
-               <Navbar.Brand><h2>LearnHub</h2></Navbar.Brand>
+         <Navbar expand="lg" className="learnhub-navbar">
+            <Container fluid="xl">
+               <Navbar.Brand className="brand-mark">
+                  <span className="brand-icon">LH</span>
+                  <span className="brand-text">LearnHub</span>
+               </Navbar.Brand>
                <Navbar.Toggle aria-controls="navbarScroll" />
                <Navbar.Collapse id="navbarScroll">
-                  <Nav
-                     className="me-auto my-2 my-lg-0"
-                     style={{ maxHeight: '100px' }}
-                     navbarScroll
-                  >
-                  </Nav>
-                  <Nav>
+                  <Nav className="ms-auto nav-links">
                      <Link to={'/'}>Home</Link>
-                     {/* <Link to={'/about'}>About</Link> */}
                      <Link to={'/login'}>Login</Link>
                      <Link to={'/register'}>Register</Link>
                   </Nav>
-
                </Navbar.Collapse>
             </Container>
          </Navbar>
-         <div className='first-container'>
-            <Container component="main" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
-               <Box
-                  sx={{
-                     marginTop: 8,
-                     marginBottom: 4,
-                     display: 'flex',
-                     flexDirection: 'column',
-                     alignItems: 'center',
-                     padding: '10px',
-                     background: '#dddde8db',
-                     border: '1px solid lightblue',
-                     borderRadius: '5px'
-                  }}
-               >
-                  <Avatar sx={{ bgcolor: 'secondary.main' }}>
-                  </Avatar>
-                  <Typography component="h1" variant="h5">
-                     Sign In
-                  </Typography>
-                  <Box component="form" onSubmit={handleSubmit} noValidate>
-                     <TextField
-                        margin="normal"
-                        fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        value={data.email}
-                        onChange={handleChange}
-                        autoComplete="email"
-                        autoFocus
-                     />
-                     <TextField
-                        margin="normal"
-                        fullWidth
-                        name="password"
-                        value={data.password}
-                        onChange={handleChange}
-                        label="Password"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                     />
-                     <Box mt={2}>
-                        <Button
-                           type="submit"
-                           variant="contained"
-                           sx={{ mt: 3, mb: 2 }}
-                           style={{ width: '200px' }}
-                        >
-                           Sign In
-                        </Button>
-                     </Box>
-                     <Grid container>
-                        <Grid item>Have an account?
-                           <Link style={{ color: "blue" }} to={'/register'} variant="body2">
-                              {" Sign Up"}
-                           </Link>
-                        </Grid>
-                     </Grid>
+         <div className='auth-shell'>
+            <Box className="auth-card">
+               <div className="auth-title">
+                  <Avatar sx={{ bgcolor: '#2563eb', margin: '0 auto' }}>LH</Avatar>
+                  <Typography component="h1" variant="h5">Sign in</Typography>
+                  <p>Continue learning from your LearnHub dashboard.</p>
+               </div>
+               <Box component="form" onSubmit={handleSubmit} noValidate>
+                  <TextField
+                     margin="normal"
+                     fullWidth
+                     id="email"
+                     label="Email Address"
+                     name="email"
+                     value={data.email}
+                     onChange={handleChange}
+                     autoComplete="email"
+                     autoFocus
+                  />
+                  <TextField
+                     margin="normal"
+                     fullWidth
+                     name="password"
+                     value={data.password}
+                     onChange={handleChange}
+                     label="Password"
+                     type="password"
+                     id="password"
+                     autoComplete="current-password"
+                  />
+                  <Box mt={2}>
+                     <Button type="submit" variant="contained" className="btn-lh-primary" fullWidth sx={{ mt: 2, mb: 2, py: 1.2 }}>
+                        Sign In
+                     </Button>
                   </Box>
+                  <Grid container justifyContent="center">
+                     <Grid item>
+                        New to LearnHub?
+                        <Link style={{ color: "#2563eb", fontWeight: 700, marginLeft: 6 }} to={'/register'} variant="body2">
+                           Create account
+                        </Link>
+                     </Grid>
+                  </Grid>
                </Box>
-            </Container>
+            </Box>
          </div>
       </>
    )

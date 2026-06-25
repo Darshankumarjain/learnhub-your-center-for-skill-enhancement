@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+﻿import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState, useEffect, createContext } from "react";
 
 import "./App.css";
@@ -40,8 +40,6 @@ function App() {
               <Route exact path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              {/* <Route path="/about" element={<About />} />
-            <Route path="/forgotpassword" element={<ForgotPassword />} /> */}
               {userLoggedIn ? (
                 <>
                   <Route path="/dashboard" element={<Dashboard />} />
@@ -52,9 +50,9 @@ function App() {
               )}
             </Routes>
           </div>
-          <footer className="bg-light text-center text-lg-start">
+          <footer className="app-footer text-center text-lg-start">
             <div className="text-center p-3">
-              © {date} Copyright: LearnHub
+              Copyright {date} LearnHub
             </div>
           </footer>
         </Router>

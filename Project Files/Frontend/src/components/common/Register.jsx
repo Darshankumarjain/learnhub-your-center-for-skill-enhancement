@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+﻿import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import Navbar from 'react-bootstrap/Navbar';
 import { Container, Nav } from 'react-bootstrap';
@@ -40,7 +40,6 @@ const Register = () => {
                if (response.data.success) {
                   alert(response.data.message)
                   navigate('/login')
-
                } else {
                   console.log(response.data.message)
                }
@@ -52,111 +51,58 @@ const Register = () => {
    };
    return (
       <>
-         <Navbar expand="lg" className="bg-body-tertiary">
-            <Container fluid>
-               <Navbar.Brand><h2>LearnHub</h2></Navbar.Brand>
+         <Navbar expand="lg" className="learnhub-navbar">
+            <Container fluid="xl">
+               <Navbar.Brand className="brand-mark">
+                  <span className="brand-icon">LH</span>
+                  <span className="brand-text">LearnHub</span>
+               </Navbar.Brand>
                <Navbar.Toggle aria-controls="navbarScroll" />
                <Navbar.Collapse id="navbarScroll">
-                  <Nav
-                     className="me-auto my-2 my-lg-0"
-                     style={{ maxHeight: '100px' }}
-                     navbarScroll
-                  >
-                  </Nav>
-                  <Nav>
+                  <Nav className="ms-auto nav-links">
                      <Link to={'/'}>Home</Link>
-                     {/* <Link to={'/about'}>About</Link> */}
                      <Link to={'/login'}>Login</Link>
                      <Link to={'/register'}>Register</Link>
                   </Nav>
                </Navbar.Collapse>
             </Container>
          </Navbar>
-         <div className="first-container">
-            <Container component="main" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
-               <Box
-                  sx={{
-                     marginTop: 8,
-                     marginBottom: 4,
-                     display: 'flex',
-                     flexDirection: 'column',
-                     alignItems: 'center',
-                     padding: '10px',
-                     background: '#dddde8db',
-                     border: '1px solid lightblue',
-                     borderRadius: '5px'
-                  }}
-               >
-                  <Avatar sx={{ bgcolor: 'secondary.main' }}>
-                     {/* <LockOutlinedIcon /> */}
-                  </Avatar>
-                  <Typography component="h1" variant="h5">
-                     Register
-                  </Typography>
-                  <Box component="form" onSubmit={handleSubmit} noValidate>
-                     <TextField
-                        margin="normal"
-                        fullWidth
-                        id="name"
-                        label="Full Name"
-                        name="name"
-                        value={data.name}
-                        onChange={handleChange}
-                        autoComplete="name"
-                        autoFocus
-                     />
-                     <TextField
-                        margin="normal"
-                        fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        value={data.email}
-                        onChange={handleChange}
-                        autoComplete="email"
-                        autoFocus
-                     />
-                     <TextField
-                        margin="normal"
-                        fullWidth
-                        name="password"
-                        value={data.password}
-                        onChange={handleChange}
-                        label="Password"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                     />
-                     <Dropdown className='my-3'>
-                        <Dropdown.Toggle variant="outline-secondary" id="dropdown-basic">
-                           {selectedOption}
-                        </Dropdown.Toggle>
+         <div className="auth-shell">
+            <Box className="auth-card">
+               <div className="auth-title">
+                  <Avatar sx={{ bgcolor: '#14b8a6', margin: '0 auto' }}>LH</Avatar>
+                  <Typography component="h1" variant="h5">Create account</Typography>
+                  <p>Choose your role and start your LearnHub journey.</p>
+               </div>
+               <Box component="form" onSubmit={handleSubmit} noValidate>
+                  <TextField margin="normal" fullWidth id="name" label="Full Name" name="name" value={data.name} onChange={handleChange} autoComplete="name" autoFocus />
+                  <TextField margin="normal" fullWidth id="email" label="Email Address" name="email" value={data.email} onChange={handleChange} autoComplete="email" />
+                  <TextField margin="normal" fullWidth name="password" value={data.password} onChange={handleChange} label="Password" type="password" id="password" autoComplete="current-password" />
+                  <Dropdown className='my-3'>
+                     <Dropdown.Toggle className="btn-lh-outline w-100" id="dropdown-basic">
+                        {selectedOption}
+                     </Dropdown.Toggle>
 
-                        <Dropdown.Menu>
-                           <Dropdown.Item onClick={() => handleSelect("Student")}>Student</Dropdown.Item>
-                           <Dropdown.Item onClick={() => handleSelect("Teacher")}>Teacher</Dropdown.Item>
-                        </Dropdown.Menu>
-                     </Dropdown>
-                     <Box mt={2}>
-                        <Button
-                           type="submit"
-                           variant="contained"
-                           sx={{ mt: 3, mb: 2 }}
-                           style={{ width: '200px' }}
-                        >
-                           Sign Up
-                        </Button>
-                     </Box>
-                     <Grid container>
-                        <Grid item>Have an account?
-                           <Link style={{ color: "blue" }} to={'/login'} variant="body2">
-                              {" Sign In"}
-                           </Link>
-                        </Grid>
-                     </Grid>
+                     <Dropdown.Menu className="w-100">
+                        <Dropdown.Item onClick={() => handleSelect("Student")}>Student</Dropdown.Item>
+                        <Dropdown.Item onClick={() => handleSelect("Teacher")}>Teacher</Dropdown.Item>
+                     </Dropdown.Menu>
+                  </Dropdown>
+                  <Box mt={2}>
+                     <Button type="submit" variant="contained" className="btn-lh-primary" fullWidth sx={{ mt: 1, mb: 2, py: 1.2 }}>
+                        Sign Up
+                     </Button>
                   </Box>
+                  <Grid container justifyContent="center">
+                     <Grid item>
+                        Already registered?
+                        <Link style={{ color: "#2563eb", fontWeight: 700, marginLeft: 6 }} to={'/login'} variant="body2">
+                           Sign in
+                        </Link>
+                     </Grid>
+                  </Grid>
                </Box>
-            </Container>
+            </Box>
          </div>
       </>
    )

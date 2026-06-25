@@ -1,14 +1,12 @@
-import React, { useContext, useState } from 'react';
+﻿import React, { useContext, useState } from 'react';
 import NavBar from './NavBar';
 import UserHome from "./UserHome"
 import { Container } from 'react-bootstrap';
 import AddCourse from '../user/teacher/AddCourse';
-import StudentHome from '../user/student/StudentHome';
-import AdminHome from '../admin/AdminHome';
-import { UserContext } from '../../App';
 import EnrolledCourses from '../user/student/EnrolledCourses';
 import CourseContent from '../user/student/CourseContent';
 import AllCourses from '../admin/AllCourses';
+import { UserContext } from '../../App';
 
 const Dashboard = () => {
    const user = useContext(UserContext)
@@ -32,8 +30,15 @@ const Dashboard = () => {
    return (
       <>
          <NavBar setSelectedComponent={setSelectedComponent} />
-         <Container className='my-3'>
-            {renderSelectedComponent()}
+         <Container fluid="xl" className='dashboard-shell'>
+            <div className="dashboard-title">
+               <span className="badge-role">{user?.userData?.type || 'User'} dashboard</span>
+               <h1>Welcome back, {user?.userData?.name}</h1>
+               <p>Manage learning activity, courses, and progress from one clean workspace.</p>
+            </div>
+            <div className="dashboard-content">
+               {renderSelectedComponent()}
+            </div>
          </Container>
       </>
    );

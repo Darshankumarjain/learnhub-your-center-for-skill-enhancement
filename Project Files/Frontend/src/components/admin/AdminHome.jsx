@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react'
+﻿import React, { useState, useEffect } from 'react'
 import { Button, styled, TableRow, TableHead, TableContainer, Paper, Table, TableBody, TableCell, tableCellClasses } from '@mui/material'
 import axiosInstance from '../common/AxiosInstance'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
+      backgroundColor: '#eff6ff',
+      color: '#0f172a',
+      fontWeight: 800,
    },
    [`&.${tableCellClasses.body}`]: {
       fontSize: 14,
@@ -14,7 +15,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
+      backgroundColor: '#f8fafc',
    },
    '&:last-child td, &:last-child th': {
       border: 0,
@@ -67,7 +68,7 @@ const AdminHome = () => {
    }
 
    return (
-      <TableContainer component={Paper}>
+      <TableContainer className="table-panel" component={Paper}>
          <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
                <TableRow>
@@ -83,26 +84,17 @@ const AdminHome = () => {
                   allUsers.length > 0 ? (
                      allUsers.map((user) => (
                         <StyledTableRow key={user._id}>
+                           <StyledTableCell component="th" scope="row">{user._id}</StyledTableCell>
+                           <StyledTableCell component="th" scope="row">{user.name}</StyledTableCell>
+                           <StyledTableCell component="th" scope="row">{user.email}</StyledTableCell>
+                           <StyledTableCell component="th" scope="row"><span className="badge-role">{user.type}</span></StyledTableCell>
                            <StyledTableCell component="th" scope="row">
-                              {user._id}
-                           </StyledTableCell>
-                           <StyledTableCell component="th" scope="row">
-                              {user.name}
-                           </StyledTableCell>
-                           <StyledTableCell component="th" scope="row">
-                              {user.email}
-                           </StyledTableCell>
-                           <StyledTableCell component="th" scope="row">
-                              {user.type}
-                           </StyledTableCell>
-                           <StyledTableCell component="th" scope="row">
-                              <Button onClick={()=> deleteUser(user._id)} size='small' color="error">Delete</Button>
-                              {/* <Button size='small' color="info">Update</Button> */}
+                              <Button onClick={()=> deleteUser(user._id)} size='small' color="error" variant="outlined">Delete</Button>
                            </StyledTableCell>
                         </StyledTableRow>
                      )))
                      :
-                     (<p className='px-2'>No users found</p>)
+                     (<StyledTableRow><StyledTableCell colSpan={5}>No users found.</StyledTableCell></StyledTableRow>)
                }
             </TableBody>
          </Table>
