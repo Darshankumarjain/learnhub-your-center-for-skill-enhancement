@@ -19,6 +19,7 @@ const CourseContent = () => {
    const [completedModule, setCompletedModule] = useState([]);
    const [showModal, setShowModal] = useState(false);
    const [certificate, setCertificate] = useState(null)
+   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
    const completedModuleIds = completedModule.map((item) => item.sectionId);
    const downloadPdfDocument = (rootElementId) => {
       const input = document.getElementById(rootElementId);
@@ -175,3 +176,6 @@ const CourseContent = () => {
    );
 };
 export default CourseContent;
+
+
+
