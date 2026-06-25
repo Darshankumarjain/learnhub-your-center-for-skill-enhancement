@@ -6,7 +6,7 @@ A full-stack web platform where students can enroll in courses, track progress, 
 
 ## 🚀 Live Demo
 
-🔗 [https://learnhub-backend-extr.onrender.com](https://learnhub-backend-extr.onrender.com)
+🔗 [https://learnhub-frontend-r8ay.onrender.com/](https://learnhub-frontend-r8ay.onrender.com/)
 
 ---
 
