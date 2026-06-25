@@ -7,7 +7,8 @@ Project Files/Frontend/node_modules/.vite/
 
 # Ignore environment files
 *.env
-
+*.mp4
+video/
 # Ignore log files
 *.log
 
